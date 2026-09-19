@@ -1,0 +1,11 @@
+{
+  "id": "obsidian-git-vault-sync",
+  "name": "Git Vault Sync",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "Sync your vault with git: fetch, pull, detect local changes, commit and push",
+  "author": "",
+  "authorUrl": "",
+  "isDesktopOnly": true,
+  "main": "main.js",
+}
