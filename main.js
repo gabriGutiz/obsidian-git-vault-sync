@@ -135,21 +135,17 @@ class VaultGitAutoSyncPlugin extends Plugin {
     }, 500);
   }
 
-  async refreshOpenSyncPanels() {
-    await Promise.all(
-      this.app.workspace
-        .getLeavesOfType(VIEW_TYPE_GIT_AUTO_SYNC)
-        .map((leaf) => {
-          if (
-            leaf.view &&
-            typeof leaf.view.refreshPendingChanges === "function"
-          ) {
-            return leaf.view.refreshPendingChanges();
-          }
-
-          return Promise.resolve();
-        }),
-    );
+  refreshOpenSyncPanels() {
+    this.app.workspace
+      .getLeavesOfType(VIEW_TYPE_GIT_AUTO_SYNC)
+      .forEach((leaf) => {
+        if (
+          leaf.view &&
+          typeof leaf.view.refreshPendingChanges === "function"
+        ) {
+          leaf.view.refreshPendingChanges();
+        }
+      });
   }
 
   async refreshOpenSyncPanelViews() {
@@ -569,7 +565,6 @@ class VaultGitAutoSyncPlugin extends Plugin {
 
       console.error("Vault Git Auto Sync error", error);
     } finally {
-      await this.refreshOpenSyncPanelViews();
       this.isSyncInProgress = false;
     }
   }
@@ -718,7 +713,6 @@ class VaultGitAutoSyncView extends ItemView {
       attr: {
         id: "vault-git-auto-sync-enabled",
       },
-      cls: "vault-git-auto-sync-enabled",
     });
 
     autoSyncToggle.checked = this.plugin.settings.autoSyncEnabled;
